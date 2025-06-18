@@ -6,14 +6,17 @@ on:
       use-cache:
         description: "Whether to execute cache step"        
         type: boolean    
-        default: true  
+        default: true 
 
       node-version:
         description: "Node version"
         required: false
         type: choice
+        default: 20.x
         options:
-          - mi1
+          - 18.x
+          - 20.x
+          - 21.x
         
        
 
@@ -27,17 +30,17 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ inputs.node-version }} 
+          node-version: ${{ inputs.node-version }}
 
       - name: Download cached dependencies
         id: cache
         uses: actions/cache@v4
         with:
           path: caching/react-app/node_modules
-          key: deps-node-modules-${{hashFiles('caching/react-app/package-lock.json') }} 
+          key: deps-node-modules-${{ hashFiles('caching/react-app/package-lock.json') }} 
 
-      - name: Install dependencies
-        if: ${{ !steps.cache.outputs.cache-hit }}
+      - if: ${{ !steps.cache.outputs.cache-hit }}
+        name: Install dependencies
         working-directory: caching/react-app
         run: npm ci
 
