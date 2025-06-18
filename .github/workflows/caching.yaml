@@ -34,7 +34,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: caching/react-app/node_modules
-          key: deps-node-modules-${{hashFiles('caching/react-app/node_modules') }} 
+          key: deps-node-modules-${{hashFiles('caching/react-app/package-lock.json') }} 
 
       - name: Install dependencies
         working-directory: caching/react-app
